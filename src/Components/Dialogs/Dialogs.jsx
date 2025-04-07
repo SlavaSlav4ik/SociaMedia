@@ -8,9 +8,8 @@ const Message = (props) => {
 };
 
 const Dialogs = (props) => {
-    console.log("Dialogs props:", props); // Проверяем, что передаётся в props
 
-    let state = props.store.getState().dialogsPage;
+    let state = props.dialogsPage;
 
     let dialogsElements = state.dialogs.map((d) => (
         <DialogItem key={d.id} name={d.name} id={d.id} />
@@ -23,12 +22,12 @@ const Dialogs = (props) => {
     let newMessageBody = state.newMessageBody;
 
     let onSendMessageClick = () => {
-        props.store.dispatch(sendMessageCreator());
+        props.sendMessage();
     };
 
     let onNewMessageChange = (e) => {
         let body = e.target.value;
-        props.store.dispatch(updateNewMessageBodyCreator(body)); // Передаём текст
+        props.updateNewMessageBody (body)
     };
 
     return (

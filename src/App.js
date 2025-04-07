@@ -5,6 +5,7 @@ import Dialogs from "./Components/Dialogs/Dialogs";
 import Navbar from "./Components/Navbar/Navbar";
 import Profile from "./Components/Profiile/Profile"; // Исправил путь
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 function App(props) {
     return (
@@ -14,11 +15,10 @@ function App(props) {
                 <Navbar />
                 <div className="App-wrapper-content">
                     <Routes>
-                        <Route path="/dialogs" element={<Dialogs store = {props.store}
+                        <Route path="/dialogs" element={<DialogsContainer
                         />} />
 
-                        <Route path="/profile" element={<Profile profilePage={props.state.profilePage}
-                                                                 dispatch = {props.dispatch}
+                        <Route path="/profile" element={<Profile
                         />}
                         />
                     </Routes>

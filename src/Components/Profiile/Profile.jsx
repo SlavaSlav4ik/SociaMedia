@@ -1,8 +1,7 @@
 import React from "react";
 import s from "./Profile.module.css"
-import Mypost from "./MyPosts/Mypost";
-import Post from "./MyPosts/Post/Post";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import MyPostContainer from "./MyPosts/MyPostContainer";
 
 let Profile = (props) => {
 
@@ -11,11 +10,7 @@ let Profile = (props) => {
         <div>
             <div className={s.item}>
                 <ProfileInfo/>
-                <Mypost posts =
-                            {props.profilePage.posts}
-                        newPostText={props.profilePage.newPostText}
-                        dispatch={props.dispatch}
-                        addPost = {props.addPost} />
+                <MyPostContainer/>
             </div>
         </div>
     )

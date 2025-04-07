@@ -35,7 +35,6 @@ let store = {
     },
     _subs: [],
     _callSubscriber() {
-        console.log('state changed');
     },
 
     getState() {
