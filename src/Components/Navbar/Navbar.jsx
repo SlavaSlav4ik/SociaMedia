@@ -7,13 +7,16 @@ let Navbar = () => {
         <nav className={s.nav}>
             <div className={s.item}>
                 {/* Переход и остаток цвета на активном*/}
-                <NavLink to="/profile" className={({ isActive }) => isActive ? s.active : ""}>Profile</NavLink>
+                <NavLink to="/profile" className={({isActive}) => isActive ? s.active : ""}>Profile</NavLink>
             </div>
             <div className={s.item}>
-                <NavLink to="/dialogs" className={({ isActive }) => isActive ? s.active : ""}>Message</NavLink>
+                <NavLink to="/users" className={({isActive}) => isActive ? s.active : ""}>Friends</NavLink>
             </div>
             <div className={s.item}>
-                <NavLink to="/news" className={({ isActive }) => isActive ? s.active : ""}>News</NavLink>
+                <NavLink to="/dialogs" className={({isActive}) => isActive ? s.active : ""}>Message</NavLink>
+            </div>
+            <div className={s.item}>
+                <NavLink to="/news" className={({isActive}) => isActive ? s.active : ""}>News</NavLink>
             </div>
             <div className={s.item}>
                 <a>Music</a>

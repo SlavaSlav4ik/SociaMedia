@@ -3,9 +3,11 @@ import s from "./App.css";
 import Header from "./Components/Header/Header";
 import Dialogs from "./Components/Dialogs/Dialogs";
 import Navbar from "./Components/Navbar/Navbar";
-import Profile from "./Components/Profiile/Profile"; // Исправил путь
+import Profile from "./Components/Profiile/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+
+import UsersContainer from "./Components/Users/UsersContainer";
 
 function App(props) {
     return (
@@ -20,6 +22,9 @@ function App(props) {
 
                         <Route path="/profile" element={<Profile
                         />}
+                        />
+
+                        <Route path="/users" element={<UsersContainer />}
                         />
                     </Routes>
                 </div>
