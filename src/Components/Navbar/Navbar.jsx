@@ -15,9 +15,7 @@ let Navbar = () => {
             <div className={s.item}>
                 <NavLink to="/dialogs" className={({isActive}) => isActive ? s.active : ""}>Message</NavLink>
             </div>
-            <div className={s.item}>
-                <NavLink to="/news" className={({isActive}) => isActive ? s.active : ""}>News</NavLink>
-            </div>
+
             <div className={s.item}>
                 <a>Music</a>
             </div>
