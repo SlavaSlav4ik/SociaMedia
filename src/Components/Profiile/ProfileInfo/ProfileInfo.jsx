@@ -8,6 +8,7 @@ let ProfileInfo = (props) => {
                 <img src="https://i.pinimg.com/736x/6f/02/d1/6f02d195addc466721dbc8ac60db1192.jpg"/>
             </div>
             <div className={s.descriptionBlock}>
+                <img src={props.profile.photos.large}/>
                 ava+description
             </div>
         </div>
