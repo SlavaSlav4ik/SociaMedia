@@ -2,8 +2,9 @@ import React from "react";
 import Profile from "./Profile";
 import axios from "axios";
 import { connect } from "react-redux";
-import { setUsersProfile } from "../../redux/profile-reducer";
+import { getUsersProfile } from "../../redux/profile-reducer";
 import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 // Кастомный withRouter для React Router v6
 function withRouter(Children) {
@@ -15,15 +16,11 @@ function withRouter(Children) {
 
 class ProfileContainer extends React.Component {
     redirectToMainUser() {
-        let userId = this.props.match.params.userId;
+        let userId = this.props.match?.params?.userId;
         if (!userId) {
-            userId = 2; // ← твой ID или дефолтный
+            userId = 3;
         }
-
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(response => {
-                this.props.setUsersProfile(response.data);
-            });
+        this.props.getUsersProfile(userId);
     }
 
     componentDidMount() {
@@ -39,12 +36,14 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
+        if (!this.props.isAuth) return <Navigate to="/login" />;
         return <Profile {...this.props} profile={this.props.profile} />;
     }
 }
 
 const mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
+    isAuth: state.auth.isAuth,
 });
 
-export default connect(mapStateToProps, { setUsersProfile })(withRouter(ProfileContainer));
+export default connect(mapStateToProps, { getUsersProfile })(withRouter(ProfileContainer));
