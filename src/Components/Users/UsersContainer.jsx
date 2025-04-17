@@ -12,18 +12,17 @@ import {
 } from "../../redux/Users-reducer";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
+import { compose } from "redux";
+import { AuthRedirectComponent } from "../Hoc/withAuthRedirect";
 
-let mapStateToProps = (state) => {
-    return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
-    };
-};
-
+let mapStateToProps = (state) => ({
+    users: state.usersPage.users,
+    pageSize: state.usersPage.pageSize,
+    totalUsersCount: state.usersPage.totalUsersCount,
+    currentPage: state.usersPage.currentPage,
+    isFetching: state.usersPage.isFetching,
+    followingInProgress: state.usersPage.followingInProgress
+});
 
 const mapDispatchToProps = {
     follow,
@@ -38,12 +37,10 @@ const mapDispatchToProps = {
 
 class UsersContainer extends React.Component {
     componentDidMount() {
-        // Теперь this.props.getUsers доступна
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (pageNumber) => {
-        // Вызываем getUsers при смене страницы
         this.props.getUsers(pageNumber, this.props.pageSize);
     };
 
@@ -66,4 +63,8 @@ class UsersContainer extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+// Если нужен редирект — добавь AuthRedirectComponent в compose
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    AuthRedirectComponent
+)(UsersContainer);

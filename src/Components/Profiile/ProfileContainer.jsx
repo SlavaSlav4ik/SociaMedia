@@ -1,25 +1,23 @@
 import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import { connect } from "react-redux";
 import { getUsersProfile } from "../../redux/profile-reducer";
 import { useParams } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { compose } from "redux";
+import { AuthRedirectComponent } from "../Hoc/withAuthRedirect";
 
-// Кастомный withRouter для React Router v6
-function withRouter(Children) {
+// withRouter HOC для получения параметров из URL
+function withRouter(Component) {
     return (props) => {
         const match = { params: useParams() };
-        return <Children {...props} match={match} />;
+        return <Component {...props} match={match} />;
     };
 }
 
 class ProfileContainer extends React.Component {
     redirectToMainUser() {
         let userId = this.props.match?.params?.userId;
-        if (!userId) {
-            userId = 3;
-        }
+        if (!userId) userId = 3;
         this.props.getUsersProfile(userId);
     }
 
@@ -28,22 +26,24 @@ class ProfileContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.isMain !== prevProps.isMain) {
-            if (this.props.isMain) {
-                this.redirectToMainUser();
-            }
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.redirectToMainUser();
         }
     }
 
     render() {
-        if (!this.props.isAuth) return <Navigate to="/login" />;
         return <Profile {...this.props} profile={this.props.profile} />;
     }
 }
 
 const mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
-    isAuth: state.auth.isAuth,
 });
 
-export default connect(mapStateToProps, { getUsersProfile })(withRouter(ProfileContainer));
+// Оборачиваем всё в compose
+export default compose(
+    connect(mapStateToProps, { getUsersProfile }),
+    withRouter,
+    AuthRedirectComponent
+)(ProfileContainer);
+
