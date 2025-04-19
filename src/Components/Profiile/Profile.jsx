@@ -3,6 +3,7 @@ import s from "./Profile.module.css"
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostContainer from "./MyPosts/MyPostContainer";
 import Preloader from "../Common/Preloader/Preloader";
+import {updateStatus} from "../../redux/profile-reducer";
 
 const  Profile = (props) => {
     if (!props.profile) {
@@ -11,7 +12,7 @@ const  Profile = (props) => {
     return (
         <div>
             <div className={s.item}>
-                <ProfileInfo profile = {props.profile}  />
+                <ProfileInfo profile = {props.profile}  status = {props.status} updateStatus = {props.updateStatus} />
                 <MyPostContainer/>
             </div>
         </div>
