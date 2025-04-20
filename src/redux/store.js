@@ -53,6 +53,19 @@ let store = {
     },
 };
 
+// src/redux/redux-store.js
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { authReducer } from "./auth-reducer";
+// другие редюсеры...
+
+const rootReducer = combineReducers({
+    auth: authReducer,
+    // другие редюсеры...
+});
+
+export const store = createStore(rootReducer, applyMiddleware(thunk));
+
 export default store;
 window.store = store;
 

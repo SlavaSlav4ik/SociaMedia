@@ -8,6 +8,7 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profiile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import LoginPage from "./Components/Login/Login";
+import Login from "./Components/Login/Login";
 
 function App() {
     return (
@@ -21,7 +22,8 @@ function App() {
                         <Route path="/profile" element={<ProfileContainer isMain={true} />} />
                         <Route path="/profile/:userId" element={<ProfileContainer />} />
                         <Route path="/users" element={<UsersContainer />} />
-                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/login" element={<Login />} />
+
 
                     </Routes>
                 </div>

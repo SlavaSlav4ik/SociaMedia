@@ -1,12 +1,14 @@
+
 import React from "react";
 import Header from "./Header";
-import axios from "axios";
 import { connect } from "react-redux";
-import {getAuthReducerData, } from "../../redux/auth-reducer";
+import { login, logout } from "../../redux/auth-reducer";
 
 class HeaderContainer extends React.Component {
     componentDidMount() {
-        this.props.getAuthReducerData ()
+        // Вызываем login или me, если нужно получить данные после загрузки
+        // Обычно авторизация происходит на входе в систему, так что вызывать login будет не нужно.
+        this.props.login("test@example.com", "password", true);  // Заменить на правильный процесс авторизации
     }
 
     render() {
@@ -19,4 +21,4 @@ const mapStateToProps = (state) => ({
     login: state.auth.login,
 });
 
-export default connect(mapStateToProps, { getAuthReducerData })(HeaderContainer);
+export default connect(mapStateToProps, { login, logout })(HeaderContainer);
