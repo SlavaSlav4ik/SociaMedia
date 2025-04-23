@@ -46,3 +46,12 @@
             dispatch(setAuthUserData(null, null, null, false));
         }
     };
+
+    export const getAuthUserData = () => async (dispatch) => {
+        const response = await authAPI.me();
+        if (response.data.resultCode === 0) {
+            const { id, email, login } = response.data.data;
+            dispatch(setAuthUserData(id, email, login, true));
+        }
+    };
+

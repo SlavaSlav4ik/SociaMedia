@@ -44,6 +44,7 @@ const Login = ({ isAuth, login, logout }) => {
         return (
             <div className="logout-section">
                 <h2>Вы вошли как пользователь</h2>
+                <h3>SlavaSlavskii</h3>
                 <button onClick={logout}>Выйти</button>
             </div>
         );
