@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/722.bd88f11b.chunk.css","mappings":"AAAA,0BAGI,2BAA4B,CAD5B,SAAU,CADV,eAAiB,CAGjB,WACJ","sources":["Components/Users/User.module.css"],"sourcesContent":[".selectedPage {\r\n    font-weight: bold;\r\n    color: red;\r\n    border-bottom: 2px solid red;\r\n    padding: 2px;\r\n}"],"names":[],"sourceRoot":""}

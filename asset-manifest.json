@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/boje-react/static/css/main.c094edf8.css",
+    "main.js": "/boje-react/static/js/main.fa17d019.js",
+    "static/css/912.74d193c1.chunk.css": "/boje-react/static/css/912.74d193c1.chunk.css",
+    "static/js/912.7b3e1fea.chunk.js": "/boje-react/static/js/912.7b3e1fea.chunk.js",
+    "static/css/525.fda12938.chunk.css": "/boje-react/static/css/525.fda12938.chunk.css",
+    "static/js/525.ca5dcbdb.chunk.js": "/boje-react/static/js/525.ca5dcbdb.chunk.js",
+    "static/css/722.bd88f11b.chunk.css": "/boje-react/static/css/722.bd88f11b.chunk.css",
+    "static/js/722.a01ea046.chunk.js": "/boje-react/static/js/722.a01ea046.chunk.js",
+    "static/media/jpg": "/boje-react/static/media/47d45103406b3b1a2a873981694e844b.d9bbc570055acd7b200f.jpg",
+    "static/media/Ellipsis@1x-1.0s-200px-200px.svg": "/boje-react/static/media/Ellipsis@1x-1.0s-200px-200px.d81a4cf707b8b2fc626f8b151dbf6cfd.svg",
+    "index.html": "/boje-react/index.html",
+    "main.c094edf8.css.map": "/boje-react/static/css/main.c094edf8.css.map",
+    "main.fa17d019.js.map": "/boje-react/static/js/main.fa17d019.js.map",
+    "912.74d193c1.chunk.css.map": "/boje-react/static/css/912.74d193c1.chunk.css.map",
+    "912.7b3e1fea.chunk.js.map": "/boje-react/static/js/912.7b3e1fea.chunk.js.map",
+    "525.fda12938.chunk.css.map": "/boje-react/static/css/525.fda12938.chunk.css.map",
+    "525.ca5dcbdb.chunk.js.map": "/boje-react/static/js/525.ca5dcbdb.chunk.js.map",
+    "722.bd88f11b.chunk.css.map": "/boje-react/static/css/722.bd88f11b.chunk.css.map",
+    "722.a01ea046.chunk.js.map": "/boje-react/static/js/722.a01ea046.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c094edf8.css",
+    "static/js/main.fa17d019.js"
+  ]
+}
