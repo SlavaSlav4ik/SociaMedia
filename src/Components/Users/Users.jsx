@@ -72,6 +72,7 @@ const Users = (props) => {
                     </span>
                 </div>
             ))}
+
             <div>
                 <button onClick={handlePrevBlock} disabled={pageBlock === 1}>
                     Назад

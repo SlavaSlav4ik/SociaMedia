@@ -4,6 +4,7 @@ const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
+const DELETE_POST = 'DELETE_POST';
 
 let initialState = {
     posts: [
@@ -29,6 +30,11 @@ const profileReducer = (state = initialState, action) => {
                 posts: [...state.posts, newPost],
                 newPostText: ''
             };
+        case  DELETE_POST:
+            return  {
+                ...state,
+                posts: state.posts.filter(p => p.id != action.postID)
+            }
 
         case UPDATE_NEW_POST_TEXT:
             return {
@@ -54,27 +60,30 @@ const profileReducer = (state = initialState, action) => {
 export const addPostActionCreator = () => ({ type: ADD_POST });
 export const setUsersProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
 export const setStatus = (status) => ({ type: SET_STATUS, status });
-export const getUsersProfile = (userId) => (dispatch) => {
-    usersAPI.getProfile(userId)
-        .then(response => {
-            dispatch (setUsersProfile(response.data));
-        })
+export const deletePost = (postID) => ({ type: DELETE_POST, postID });
+export const getUsersProfile = (userId) => async (dispatch) => {
+  const response = await usersAPI.getProfile(userId)
+            dispatch (setUsersProfile(response.data))
 }
-export const getStatus = (userId) => (dispatch) => {
-    profileAPI.getStatus(userId)
-        .then(response => {
+export const getStatus = (userId) => async (dispatch) => {
+  const  response = await profileAPI.getStatus(userId)
             dispatch (setStatus(response.data));
-        })
+
 }
-export const updateStatus = (status) => (dispatch) => {
-    profileAPI.updateStatus(status)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setStatus(status));
-            }
-        });
-};
-export const updateNewPostTextActionCreator = (text) => ({
+export const updateStatus = (status) => async (dispatch) => {
+    try {
+        const response = await profileAPI.updateStatus(status);
+
+        // защита от undefined
+        if (response?.data?.resultCode === 0) {
+            dispatch(setStatus(status));
+        } else {
+            console.warn("Ошибка при обновлении статуса:", response);
+        }
+    } catch (error) {
+        console.error("Произошла ошибка в updateStatus:", error);
+    }
+};export const updateNewPostTextActionCreator = (text) => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
 });

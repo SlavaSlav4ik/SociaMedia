@@ -1,30 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
 import Post from "./Post/Post";
 import s from "./Mypost.module.css";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
+const MyPost = React.memo((props) => {
+    // Список постов
+    const postsElement = props.posts.map(p => (
+        <Post key={p.id} message={p.message} likesCount={p.likesCount} />
+    ));
 
+    // Реф для textarea
+    const newPostElement = useRef(null);
 
+    // Добавление поста
+    const onAddPost = () => {
+        props.addPost();
+    };
 
-
-let Mypost = (props) => {
-    let postsElement = props.posts.map(p => <Post message = {p.message} likesCount={p.likesCount}/>)
-    console.log("Posts in Mypost:", props.posts);
-
-    let newPostElement = React.createRef()
-
-
-    let onAddPost = () => {
-        props.addPost ()
-
-    }
-
-    let onPostChange = () => {
-        let text = newPostElement.current.value
-        props.updateNewPostText(text)
-
-
-    }
+    // Обновление текста
+    const onPostChange = () => {
+        const text = newPostElement.current.value;
+        props.updateNewPostText(text);
+    };
 
     return (
         <div className={s.content}>
@@ -32,15 +28,21 @@ let Mypost = (props) => {
                 <h3>My post</h3>
             </div>
             <div>
-                <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}></textarea>
+        <textarea
+            onChange={onPostChange}
+            ref={newPostElement}
+            value={props.newPostText}
+            className={s.textarea}
+        />
             </div>
             <div>
-                <button onClick={onAddPost}>Add post</button>
+                <button onClick={onAddPost} className={s.button}>
+                    Add post
+                </button>
             </div>
-            <div>{postsElement}</div>
-
+            <div className={s.postsList}>{postsElement}</div>
         </div>
-    )
-}
+    );
+});
 
-export default Mypost
+export default MyPost;
