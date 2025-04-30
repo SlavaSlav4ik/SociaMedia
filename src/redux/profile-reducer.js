@@ -5,6 +5,7 @@ const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
 let initialState = {
     posts: [
@@ -51,6 +52,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 status: action.status
             };
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            };
 
         default:
             return state;
@@ -61,6 +67,7 @@ export const addPostActionCreator = () => ({ type: ADD_POST });
 export const setUsersProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
 export const setStatus = (status) => ({ type: SET_STATUS, status });
 export const deletePost = (postID) => ({ type: DELETE_POST, postID });
+export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos });
 export const getUsersProfile = (userId) => async (dispatch) => {
   const response = await usersAPI.getProfile(userId)
             dispatch (setUsersProfile(response.data))
@@ -83,7 +90,19 @@ export const updateStatus = (status) => async (dispatch) => {
     } catch (error) {
         console.error("Произошла ошибка в updateStatus:", error);
     }
-};export const updateNewPostTextActionCreator = (text) => ({
+};
+export const savePhoto = (file) => async (dispatch) => {
+    try {
+        const response = await profileAPI.savePhoto(file);
+        if (response?.data?.resultCode === 0) {
+            dispatch(savePhotoSuccess(response.data.data.photos));
+        }
+    } catch (error) {
+        console.error("Ошибка при загрузке фото:", error);
+    }
+};
+
+export const updateNewPostTextActionCreator = (text) => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
 });
