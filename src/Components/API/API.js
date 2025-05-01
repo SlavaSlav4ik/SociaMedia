@@ -40,11 +40,11 @@ export const usersAPI = {
 
 
 export const profileAPI = {
-    getProfile (usersID) {
-        return  instance.get(`profile/${usersID}`)
+    getProfile(usersID) {
+        return instance.get(`profile/${usersID}`);
     },
-    getStatus (usersID) {
-        return instance.get("profile/status/" + usersID)
+    getStatus(usersID) {
+        return instance.get("profile/status/" + usersID);
     },
     updateStatus(status) {
         return instance.put("profile/status/", { status });
@@ -57,10 +57,20 @@ export const profileAPI = {
                 "Content-Type": "multipart/form-data"
             }
         });
+    },
+    saveProfile(profileData) {
+        return instance.put("profile", {
+            fullName: profileData.fullName,
+            aboutMe: profileData.aboutMe,
+            lookingForAJob: profileData.lookingForAJob,
+            lookingForAJobDescription: profileData.lookingForAJobDescription,
+            contacts: profileData.contacts
+        });
     }
+};
 
 
-}
+
 
 // src/components/API/API.js
 
