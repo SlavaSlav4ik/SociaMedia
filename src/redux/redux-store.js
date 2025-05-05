@@ -5,6 +5,7 @@ import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialog-reducer";
 import usersReducer from "./Users-reducer";
 import { authReducer } from "./auth-reducer";
+import friendsReducer from "./friends-reducer";
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -12,6 +13,7 @@ let reducers = combineReducers({
     //sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    friendsPage: friendsReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

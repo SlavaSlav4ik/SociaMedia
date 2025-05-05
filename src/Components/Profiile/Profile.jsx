@@ -1,7 +1,8 @@
 import React from "react";
-import s from "./Profile.module.css";
+import { Grid } from "@mui/material";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostContainer from "./MyPosts/MyPostContainer";
+import FriendsList from "./FriendsList";
 import Preloader from "../Common/Preloader/Preloader";
 
 const Profile = (props) => {
@@ -10,8 +11,8 @@ const Profile = (props) => {
     }
 
     return (
-        <div>
-            <div className={s.item}>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
                 <ProfileInfo
                     profile={props.profile}
                     status={props.status}
@@ -20,9 +21,16 @@ const Profile = (props) => {
                     savePhoto={props.savePhoto}
                     saveProfile={props.saveProfile}
                 />
+            </Grid>
+
+            <Grid item xs={8}>
                 <MyPostContainer />
-            </div>
-        </div>
+            </Grid>
+
+            <Grid item xs={4}>
+                <FriendsList friends={props.friends} />
+            </Grid>
+        </Grid>
     );
 };
 

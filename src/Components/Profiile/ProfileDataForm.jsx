@@ -1,5 +1,17 @@
+import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox, FormControlLabel, Button, Typography, Stack, Box } from "@mui/material";
+import {
+    TextField,
+    Checkbox,
+    FormControlLabel,
+    Button,
+    Typography,
+    Stack,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const ProfileDataForm = ({ profile, onSubmit }) => {
     const initialValues = {
@@ -14,11 +26,11 @@ const ProfileDataForm = ({ profile, onSubmit }) => {
         <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
             {({ values, handleChange }) => (
                 <Form>
-                    <Stack spacing={2}>
+                    <Stack spacing={3}>
                         <Typography variant="h6">Edit Profile</Typography>
 
                         <TextField
-                            label="Full name"
+                            label="Full Name"
                             name="fullName"
                             value={values.fullName}
                             onChange={handleChange}
@@ -36,14 +48,15 @@ const ProfileDataForm = ({ profile, onSubmit }) => {
                             label="Looking for a job"
                         />
 
-                        <TextField
-                            label="My professional skills"
-                            name="lookingForAJobDescription"
-                            value={values.lookingForAJobDescription}
-                            onChange={handleChange}
-                            fullWidth
-                            multiline
-                        />
+                        {values.lookingForAJob && (
+                            <TextField
+                                label="Professional skills"
+                                name="lookingForAJobDescription"
+                                value={values.lookingForAJobDescription}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                        )}
 
                         <TextField
                             label="About me"
@@ -51,24 +64,27 @@ const ProfileDataForm = ({ profile, onSubmit }) => {
                             value={values.aboutMe}
                             onChange={handleChange}
                             fullWidth
-                            multiline
                         />
 
-                        <Box>
-                            <Typography variant="subtitle1">Contacts:</Typography>
-                            <Stack spacing={1}>
-                                {Object.keys(profile.contacts).map((key) => (
-                                    <TextField
-                                        key={key}
-                                        label={key}
-                                        name={`contacts.${key}`}
-                                        value={values.contacts[key] || ""}
-                                        onChange={handleChange}
-                                        fullWidth
-                                    />
-                                ))}
-                            </Stack>
-                        </Box>
+                        <Accordion>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography><b>Contacts</b></Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Stack spacing={2}>
+                                    {Object.keys(profile.contacts).map((key) => (
+                                        <TextField
+                                            key={key}
+                                            label={key.charAt(0).toUpperCase() + key.slice(1)}
+                                            name={`contacts.${key}`}
+                                            value={values.contacts[key] || ""}
+                                            onChange={handleChange}
+                                            fullWidth
+                                        />
+                                    ))}
+                                </Stack>
+                            </AccordionDetails>
+                        </Accordion>
 
                         <Button type="submit" variant="contained" color="primary">
                             Save
