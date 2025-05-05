@@ -10,12 +10,12 @@ const instance = axios.create({
 
 
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => {
-                return response.data;
-            });
-    },
+    getUsers(currentPage = 1, pageSize = 10, term = "") {
+        return instance
+            .get(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
+            .then(response => response.data);
+    }
+,
     follow (usersID) {
       return   instance.post(`follow/${usersID}`, {}, {
             withCredentials: true,
@@ -35,9 +35,9 @@ export const usersAPI = {
     getProfile (usersID) {
         console.log ("Obsolete method. Please profileAPI object")
         return  profileAPI.getProfile(usersID)
-    }
-}
+    },
 
+}
 
 export const profileAPI = {
     getProfile(usersID) {
@@ -69,11 +69,6 @@ export const profileAPI = {
     }
 };
 
-
-
-
-// src/components/API/API.js
-
 export const authAPI = {
     me() {
         return instance.get(`auth/me`);
@@ -83,6 +78,18 @@ export const authAPI = {
     },
     logout() {
         return instance.delete('auth/login');
+    }
+};
+
+export const dialogsAPI = {
+    getDialogs() {
+        return instance.get('dialogs');
+    },
+    getMessages(userId) {
+        return instance.get(`dialogs/${userId}/messages`);
+    },
+    sendMessage(userId, message) {
+        return instance.post(`dialogs/${userId}/messages`, { body: message });
     }
 };
 

@@ -1,50 +1,62 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
-const SEND_MESSAGE = 'SEND-MESSAGE';
+import {dialogsAPI} from "../Components/API/API";
 
-let instialState = {
-    messages: [
-        { id: 1, message: "Slava" },
-        { id: 2, message: "pupup" },
-        { id: 3, message: "Myu" },
-        { id: 4, message: "Hallo" },
-        { id: 5, message: "Pupick" },
-    ],
-    dialogs: [
-        { id: 1, name: "Slava" },
-        { id: 2, name: "Kentofarik" },
-        { id: 3, name: "Ken" },
-        { id: 4, name: "Kenan" },
-        { id: 5, name: "Kenanovih" },
-    ],
+const SET_DIALOGS = 'SET_DIALOGS';
+const SET_MESSAGES = 'SET_MESSAGES';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+
+
+const initialState = {
+    dialogs: [],
+    messages: [],
     newMessageBody: ''
-}
+};
 
-const dialogsReducer = (state = instialState, action) => {
+const dialogsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_DIALOGS:
+            return {
+                ...state,
+                dialogs: action.dialogs
+            };
+        case SET_MESSAGES:
+            return {
+                ...state,
+                messages: action.messages
+            };
         case UPDATE_NEW_MESSAGE_BODY:
             return {
                 ...state,
                 newMessageBody: action.body
             };
-
-        case SEND_MESSAGE:
-            const newMessage = {
-                id: state.messages.length + 1,
-                message: state.newMessageBody
-            };
-            return {
-                ...state,
-                messages: [...state.messages, newMessage],
-                newMessageBody: ''
-            };
-
         default:
             return state;
     }
 };
-export const sendMessageCreator = () => ({ type: SEND_MESSAGE });
+
+export const setDialogs = (dialogs) => ({ type: SET_DIALOGS, dialogs });
+export const setMessages = (messages) => ({ type: SET_MESSAGES, messages });
 export const updateNewMessageBodyCreator = (text) => ({
     type: UPDATE_NEW_MESSAGE_BODY,
     body: text
 });
+
+// Thunk для получения диалогов
+export const fetchDialogs = () => async (dispatch) => {
+    const response = await dialogsAPI.getDialogs();
+    dispatch(setDialogs(response.data));
+};
+
+// Thunk для получения сообщений с юзером
+export const fetchMessages = (userId) => async (dispatch) => {
+    const response = await dialogsAPI.getMessages(userId);
+    dispatch(setMessages(response.data.items));
+};
+
+// Thunk для отправки сообщения
+export const sendMessageThunk = (userId, message) => async (dispatch) => {
+    await dialogsAPI.sendMessage(userId, message);
+    dispatch(updateNewMessageBodyCreator("")); // очистим поле
+    dispatch(fetchMessages(userId)); // перезагрузим сообщения
+};
+
 export default dialogsReducer;

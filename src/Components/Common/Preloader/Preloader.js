@@ -1,8 +1,17 @@
-import preloader from "../../../assets/louder/Ellipsis@1x-1.0s-200px-200px.svg";
 import React from "react";
+import { Box, CircularProgress } from "@mui/material";
 
-let Preloader = (props) => {
-    return <div><img src={preloader} alt="Loading..."/></div>
-}
+const Preloader = () => {
+    return (
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="200px"
+        >
+            <CircularProgress />
+        </Box>
+    );
+};
 
-export default Preloader
+export default Preloader;

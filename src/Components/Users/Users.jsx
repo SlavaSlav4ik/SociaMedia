@@ -1,99 +1,118 @@
 import React, { useState } from "react";
-import styles from "./User.module.css";
-import userPhoto from "../../assets/images/47d45103406b3b1a2a873981694e844b.jpg";
+import {
+    Avatar,
+    Button,
+    Card,
+    CardContent,
+    Typography,
+    Box,
+    Stack,
+    TextField
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
+import userPhoto from "../../assets/images/47d45103406b3b1a2a873981694e844b.jpg";
 
-const Users = (props) => {
-    const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-    const pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-
+const Users = ({
+                   users,
+                   totalUsersCount,
+                   pageSize,
+                   currentPage,
+                   onPageChanged,
+                   follow,
+                   unfollow,
+                   followingInProgress,
+                   onSearchChanged,
+                   searchTerm
+               }) => {
+    const pagesCount = Math.ceil(totalUsersCount / pageSize);
     const pagesPerBlock = 10;
     const totalBlocks = Math.ceil(pagesCount / pagesPerBlock);
 
-    const [pageBlock, setPageBlock] = useState(1);
-    const startPage = (pageBlock - 1) * pagesPerBlock;
-    const endPage = startPage + pagesPerBlock;
-    const visiblePages = pages.slice(startPage, endPage);
+    const [pageBlock, setPageBlock] = useState(Math.ceil(currentPage / pagesPerBlock));
+    const [search, setSearch] = useState(searchTerm || "");
+
+    const startPage = (pageBlock - 1) * pagesPerBlock + 1;
+    const endPage = Math.min(startPage + pagesPerBlock - 1, pagesCount);
+    const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
     const handlePrevBlock = () => {
-        if (pageBlock > 1) {
-            setPageBlock(pageBlock - 1);
-        }
+        if (pageBlock > 1) setPageBlock(pageBlock - 1);
     };
 
     const handleNextBlock = () => {
-        if (pageBlock < totalBlocks) {
-            setPageBlock(pageBlock + 1);
-        }
+        if (pageBlock < totalBlocks) setPageBlock(pageBlock + 1);
+    };
+
+    const handleSearch = () => {
+        onSearchChanged(search);
+        setPageBlock(1);
     };
 
     return (
-        <div>
+        <Box p={2}>
+            <Box mb={2} display="flex" gap={2} alignItems="center">
+                <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Поиск пользователей"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <Button variant="contained" onClick={handleSearch}>
+                    Найти
+                </Button>
+            </Box>
 
+            <Stack spacing={2}>
+                {users.map(u => (
+                    <Card key={u.id} variant="outlined">
+                        <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <NavLink to={`/profile/${u.id}`}>
+                                    <Avatar
+                                        src={u.photos.small || userPhoto}
+                                        alt="avatar"
+                                        sx={{ width: 56, height: 56, mr: 2 }}
+                                    />
+                                </NavLink>
+                                <Box>
+                                    <Typography variant="h6">{u.name}</Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {u.status || "No status"}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <Button
+                                variant={u.followed ? "outlined" : "contained"}
+                                color={u.followed ? "error" : "primary"}
+                                disabled={followingInProgress.includes(u.id)}
+                                onClick={() => u.followed ? unfollow(u.id) : follow(u.id)}
+                            >
+                                {u.followed ? "Unfollow" : "Follow"}
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Stack>
 
-            {props.users.map(u => (
-                <div key={u.id}>
-                    <span>
-                        <div>
-                            <NavLink to={`/profile/${u.id}`}>
-                                <img
-                                    src={u.photos.small || userPhoto}
-                                    alt="avatar"
-                                    style={{width: "50px", height: "50px", borderRadius: "50%"}}
-                                />
-                            </NavLink>
-                        </div>
-                        <div>
-                            {u.followed ? (
-                                <button
-                                    disabled={props.followingInProgress.includes(u.id)}
-                                    onClick={() => props.unfollow(u.id)}
-                                >
-                                    Unfollow
-                                </button>
-                            ) : (
-                                <button
-                                    disabled={props.followingInProgress.includes(u.id)}
-                                    onClick={() => props.follow(u.id)}
-                                >
-                                    Follow
-                                </button>
-                            )}
-                        </div>
-                    </span>
-                    <span>
-                        <div>{u.name}</div>
-                        <div>{u.status}</div>
-                        <div>{'u.location?.country'}</div>
-                        <div>{'u.location?.city'}</div>
-                    </span>
-                </div>
-            ))}
-
-            <div>
-                <button onClick={handlePrevBlock} disabled={pageBlock === 1}>
+            <Box mt={3} display="flex" justifyContent="center" alignItems="center" gap={2}>
+                <Button variant="outlined" onClick={handlePrevBlock} disabled={pageBlock === 1}>
                     Назад
-                </button>
-
+                </Button>
                 {visiblePages.map(p => (
-                    <span
+                    <Button
                         key={p}
-                        className={props.currentPage === p ? styles.selectedPage : ""}
-                        onClick={() => props.onPageChanged(p)}
-                        style={{margin: "0 5px", cursor: "pointer"}}
+                        variant={p === currentPage ? "contained" : "outlined"}
+                        onClick={() => onPageChanged(p)}
                     >
                         {p}
-                    </span>
+                    </Button>
                 ))}
-
-                <button onClick={handleNextBlock} disabled={pageBlock === totalBlocks}>
+                <Button variant="outlined" onClick={handleNextBlock} disabled={pageBlock === totalBlocks}>
                     Далее
-                </button>
-            </div>
-        </div>
+                </Button>
+            </Box>
+        </Box>
     );
 };
 

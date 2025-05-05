@@ -8,6 +8,7 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
+const SET_SEARCH_TERM = 'SET_SEARCH_TERM';
 
 let initialState = {
     users: [],
@@ -15,7 +16,9 @@ let initialState = {
     totalUsersCount: 20,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
+    searchTerm: ""
+
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -57,12 +60,19 @@ const usersReducer = (state = initialState, action) => {
                     ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter(id => id !== action.userId)
             };
+        case SET_SEARCH_TERM:
+            return {
+                ...state,
+                searchTerm: action.term
+            };
+
         default:
             return state;
     }
 };
 
 // 👉 Action Creators
+export const setSearchTerm = (term) => ({ type: SET_SEARCH_TERM, term });
 export const followSuccess = (userId) => ({ type: FOLLOW, userId });
 export const unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId });
 export const setUsers = (users) => ({ type: SET_USERS, users });
@@ -72,16 +82,16 @@ export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isF
 export const toggleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId });
 
 // 👉 Thunk
-export const requestUsers = (page, pageSize) => {
+export const requestUsers = (page, pageSize, term = "") => {
     return async (dispatch) => {
-        dispatch(setCurrentPage(page)); // <-- добавили сюда!
+        dispatch(setCurrentPage(page));
+        dispatch(setSearchTerm(term));
         dispatch(toggleIsFetching(true));
 
-        const data = await usersAPI.getUsers(page, pageSize)
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
-            dispatch(setTotalUsersCount(data.totalCount));
-
+        const data = await usersAPI.getUsers(page, pageSize, term);
+        dispatch(toggleIsFetching(false));
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount));
     };
 };
 

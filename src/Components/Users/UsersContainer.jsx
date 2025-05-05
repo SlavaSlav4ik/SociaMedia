@@ -3,11 +3,6 @@ import { connect } from "react-redux";
 import {
     follow,
     unfollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    toggleFollowingProgress,
-    toggleIsFetching,
     requestUsers
 } from "../../redux/Users-reducer";
 import Users from "./Users";
@@ -20,36 +15,23 @@ import {
     getIsFetching,
     getPageSize,
     getTotalUsersCount,
-    getUsers
+    getUsers,
+    getSearchTerm
 } from "../../redux/users-selectors";
-
-const mapStateToProps = (state) => ({
-    users: getUsers(state),
-    pageSize: getPageSize(state),
-    totalUsersCount: getTotalUsersCount(state),
-    currentPage: getCurrentPage(state),
-    isFetching: getIsFetching(state),
-    followingInProgress: getFollowingInProgress(state),
-});
-
-const mapDispatchToProps = {
-    follow,
-    unfollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    toggleIsFetching,
-    toggleFollowingProgress,
-    requestUsers
-};
 
 class UsersContainer extends React.Component {
     componentDidMount() {
-        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+        const { currentPage, pageSize, searchTerm } = this.props;
+        this.props.requestUsers(currentPage, pageSize, searchTerm);
     }
 
     onPageChanged = (pageNumber) => {
-        this.props.requestUsers(pageNumber, this.props.pageSize);
+        const { pageSize, searchTerm } = this.props;
+        this.props.requestUsers(pageNumber, pageSize, searchTerm);
+    };
+
+    onSearchChanged = (term) => {
+        this.props.requestUsers(1, this.props.pageSize, term);
     };
 
     render() {
@@ -65,13 +47,29 @@ class UsersContainer extends React.Component {
                     unfollow={this.props.unfollow}
                     follow={this.props.follow}
                     followingInProgress={this.props.followingInProgress}
+                    onSearchChanged={this.onSearchChanged}
+                    searchTerm={this.props.searchTerm}
                 />
             </>
         );
     }
 }
 
+const mapStateToProps = (state) => ({
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
+    searchTerm: getSearchTerm(state)
+});
+
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        requestUsers
+    }),
     AuthRedirectComponent
 )(UsersContainer);

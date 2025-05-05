@@ -1,22 +1,89 @@
 .dialogs {
-display: grid;
-    grid-template-columns: 2fr 10fr;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.item {
-background-color: cornflowerblue;
-}
-
-.dialogsItems .dialog {
+.dialogsItems {
+    flex-basis: 30%;
+    overflow-y: auto;
+    margin-right: 20px;
     padding: 10px;
-
+    border-right: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 8px;
 }
 
-.dialogsItems .active {
-    color: gold;
+.placeholder {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #777;
 }
 
-.messages {
-padding: 10px;
+.dialogItem {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.dialogItem:hover {
+    background-color: #f0f0f0;
+}
+
+.dialogItem.active {
+    background-color: #d1f0d1;
+}
+
+.dialogContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin-left: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.inputBlock {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+textarea {
+    resize: none;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+    min-height: 60px;
+}
+
+button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }

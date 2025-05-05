@@ -1,25 +1,27 @@
-import React from "react";
 import { connect } from "react-redux";
 import Dialogs from "./Dialogs";
-import {
-    sendMessageCreator,
-    updateNewMessageBodyCreator
-} from "../../redux/dialog-reducer";
 import { compose } from "redux";
 import { AuthRedirectComponent } from "../Hoc/withAuthRedirect";
+import {
+    fetchDialogs,
+    fetchMessages,
+    sendMessageThunk,
+    updateNewMessageBodyCreator
+} from "../../redux/dialog-reducer";
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
     dialogsPage: state.dialogsPage,
+    isAuth: state.auth.isAuth
 });
 
 const mapDispatchToProps = {
     updateNewMessageBody: updateNewMessageBodyCreator,
-    sendMessage: sendMessageCreator,
+    fetchMessages,
+    sendMessageThunk,
+    fetchDialogs
 };
 
-// Используем compose для наглядности и удобства
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     AuthRedirectComponent
 )(Dialogs);
-

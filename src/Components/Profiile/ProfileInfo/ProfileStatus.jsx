@@ -1,55 +1,38 @@
-import React from "react";
-import s from "./ProfileInfo.module.css";
+import React, { useState, useEffect } from "react";
+import { TextField, Typography } from "@mui/material";
 
-class ProfileStatus extends React.Component {
-    state = {
-        editMode: false,
-        status: this.props.status
+const ProfileStatus = ({ status: propStatus, updateStatus }) => {
+    const [editMode, setEditMode] = useState(false);
+    const [status, setStatus] = useState(propStatus);
+
+    useEffect(() => {
+        setStatus(propStatus);
+    }, [propStatus]);
+
+    const activateEditMode = () => setEditMode(true);
+    const deactivateEditMode = () => {
+        setEditMode(false);
+        updateStatus(status);
     };
 
-    // Привязка контекста через стрелочную функцию
-    activateEditMode = () => {
-        this.setState({ editMode: true });
-    };
-
-    deactivateEditMode = () => {
-        this.setState({ editMode: false });
-        this.props.updateStatus(this.state.status);
-    };
-
-    onStatusChange = (e) => {
-        this.setState({ status: e.currentTarget.value });
-    };
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.status !== this.props.status) {
-            this.setState({ status: this.props.status });
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                {!this.state.editMode &&
-                    <div>
-                        <span onDoubleClick={this.activateEditMode}>
-                            {this.props.status || "-----"}
-                        </span>
-                    </div>
-                }
-                {this.state.editMode &&
-                    <div>
-                        <input
-                            onChange={this.onStatusChange}
-                            autoFocus={true}
-                            onBlur={this.deactivateEditMode}
-                            value={this.state.status}
-                        />
-                    </div>
-                }
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            {!editMode ? (
+                <Typography onDoubleClick={activateEditMode} sx={{ cursor: "pointer" }}>
+                    <b>Status:</b> {propStatus || "No status"}
+                </Typography>
+            ) : (
+                <TextField
+                    autoFocus
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    onBlur={deactivateEditMode}
+                    variant="standard"
+                    fullWidth
+                />
+            )}
+        </div>
+    );
+};
 
 export default ProfileStatus;
