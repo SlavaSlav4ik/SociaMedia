@@ -1,37 +1,46 @@
-import React from "react";
-import {
-    Card,
-    CardContent,
-    Typography,
-    Avatar,
-    Stack,
-    Box,
-} from "@mui/material";
+// src/Components/FriendsList/FriendsList.jsx
 
-const FriendsList = ({ friends }) => {
-    if (!friends || friends.length === 0) return null;
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getFriends } from '../../redux/friends-reducer';
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography, Box } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+
+function FriendsList({ friends, getFriends }) {
+    useEffect(() => {
+        getFriends();
+    }, [getFriends]);
 
     return (
-        <Card>
-            <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    Friends
-                </Typography>
-                <Stack spacing={2}>
-                    {friends.map((friend) => (
-                        <Box key={friend.id} display="flex" alignItems="center">
-                            <Avatar
-                                src={friend.photos.small}
-                                alt={friend.name}
-                                sx={{ marginRight: 2 }}
-                            />
-                            <Typography>{friend.name}</Typography>
-                        </Box>
-                    ))}
-                </Stack>
-            </CardContent>
-        </Card>
+        <Box sx={{ p: 2, bgcolor: '#f3e5f5', borderRadius: 2 }}>
+            <Typography variant="h6" mb={1}>Friends</Typography>
+            <List>
+                {friends.map(f => (
+                    <ListItem key={f.id}>
+                        <ListItemAvatar>
+                            <NavLink to={`/profile/${f.id}`} style={{ textDecoration: 'none' }}>
+                                <Avatar src={f.photos?.small || ''} sx={{ cursor: 'pointer' }} />
+                            </NavLink>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={
+                                <NavLink
+                                    to={`/profile/${f.id}`}
+                                    style={{ textDecoration: 'none', color: 'inherit', fontWeight: 500 }}
+                                >
+                                    {f.name}
+                                </NavLink>
+                            }
+                        />
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
     );
-};
+}
 
-export default FriendsList;
+const mapState = state => ({
+    friends: state.friendsPage.friends
+});
+
+export default connect(mapState, { getFriends })(FriendsList);

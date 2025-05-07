@@ -2,30 +2,33 @@ import React, { useEffect } from "react";
 import s from "./Header.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 
-let Header = (props) => {
+const Header = ({ isAuth, login, logout }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!props.isAuth) {
+        if (!isAuth) {
             navigate("/login");
         }
-    }, [props.isAuth, navigate]);
+    }, [isAuth, navigate]);
 
     return (
         <header className={s.header}>
-            <img
-                src="https://w7.pngwing.com/pngs/787/486/png-transparent-vector-flame-pentecost-fire-logo-thumbnail.png"
-                alt="logo"
-            />
+            <NavLink to="/" style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                    src="https://w7.pngwing.com/pngs/787/486/png-transparent-vector-flame-pentecost-fire-logo-thumbnail.png"
+                    alt="logo"
+                />
+            </NavLink>
+
             <div className={s.loginBlock}>
-                {props.isAuth
-                    ? (
-                        <div>
-                            {props.login} — <button onClick={props.logout}>Выйти</button>
-                        </div>
-                    )
-                    : <NavLink to={"/login"}>Login</NavLink>
-                }
+                {isAuth ? (
+                    <div>
+                        {/* на больших экранах покажет текст: login — Выйти */}
+                        {login} — <button onClick={logout}>Выйти</button>
+                    </div>
+                ) : (
+                    <NavLink to="/login">Login</NavLink>
+                )}
             </div>
         </header>
     );

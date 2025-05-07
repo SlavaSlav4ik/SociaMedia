@@ -6,7 +6,7 @@ import {
     CardContent,
     Typography,
     Box,
-    Stack,
+    Grid,
     TextField
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
@@ -38,11 +38,9 @@ const Users = ({
     const handlePrevBlock = () => {
         if (pageBlock > 1) setPageBlock(pageBlock - 1);
     };
-
     const handleNextBlock = () => {
         if (pageBlock < totalBlocks) setPageBlock(pageBlock + 1);
     };
-
     const handleSearch = () => {
         onSearchChanged(search);
         setPageBlock(1);
@@ -50,52 +48,76 @@ const Users = ({
 
     return (
         <Box p={2}>
-            <Box mb={2} display="flex" gap={2} alignItems="center">
+            {/* Поиск */}
+            <Box mb={2} display="flex" gap={2} alignItems="center" flexWrap="wrap">
                 <TextField
                     variant="outlined"
                     size="small"
                     label="Поиск пользователей"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={e => setSearch(e.target.value)}
+                    sx={{ flexGrow: 1, minWidth: { xs: '100%', sm: '200px' } }}
                 />
-                <Button variant="contained" onClick={handleSearch}>
-                    Найти
-                </Button>
+                <Button variant="contained" onClick={handleSearch}>Найти</Button>
             </Box>
 
-            <Stack spacing={2}>
+            {/* Сетка пользователей */}
+            <Grid container spacing={2}>
                 {users.map(u => (
-                    <Card key={u.id} variant="outlined">
-                        <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <NavLink to={`/profile/${u.id}`}>
-                                    <Avatar
-                                        src={u.photos.small || userPhoto}
-                                        alt="avatar"
-                                        sx={{ width: 56, height: 56, mr: 2 }}
-                                    />
-                                </NavLink>
-                                <Box>
-                                    <Typography variant="h6">{u.name}</Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {u.status || "No status"}
-                                    </Typography>
+                    <Grid key={u.id} item xs={12} sm={6} md={4} lg={3}>
+                        <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                            <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <NavLink to={`/profile/${u.id}`}>
+                                        <Avatar
+                                            src={u.photos.small || userPhoto}
+                                            alt="avatar"
+                                            sx={{
+                                                width: { xs: 40, sm: 56 },
+                                                height: { xs: 40, sm: 56 },
+                                                mr: 2
+                                            }}
+                                        />
+                                    </NavLink>
+                                    <Box>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
+                                        >
+                                            {u.name}
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, mt: 0.5 }}
+                                        >
+                                            {u.status || "No status"}
+                                        </Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Button
-                                variant={u.followed ? "outlined" : "contained"}
-                                color={u.followed ? "error" : "primary"}
-                                disabled={followingInProgress.includes(u.id)}
-                                onClick={() => u.followed ? unfollow(u.id) : follow(u.id)}
-                            >
-                                {u.followed ? "Unfollow" : "Follow"}
-                            </Button>
-                        </CardContent>
-                    </Card>
-                ))}
-            </Stack>
 
-            <Box mt={3} display="flex" justifyContent="center" alignItems="center" gap={2}>
+                                <Button
+                                    variant={u.followed ? "outlined" : "contained"}
+                                    color={u.followed ? "error" : "primary"}
+                                    disabled={followingInProgress.includes(u.id)}
+                                    onClick={() => u.followed ? unfollow(u.id) : follow(u.id)}
+                                    fullWidth
+                                    sx={{
+                                        ml: 2,
+                                        py: { xs: 0.5, sm: 1 },
+                                        fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                                    }}
+                                >
+                                    {u.followed ? "Unfollow" : "Follow"}
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+
+            {/* Навигация по страницам */}
+            <Box mt={3} display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" gap={1}>
                 <Button variant="outlined" onClick={handlePrevBlock} disabled={pageBlock === 1}>
                     Назад
                 </Button>
@@ -104,6 +126,7 @@ const Users = ({
                         key={p}
                         variant={p === currentPage ? "contained" : "outlined"}
                         onClick={() => onPageChanged(p)}
+                        sx={{ minWidth: { xs: 32, sm: 40 } }}
                     >
                         {p}
                     </Button>

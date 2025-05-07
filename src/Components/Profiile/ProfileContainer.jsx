@@ -1,73 +1,38 @@
-import React from "react";
-import { connect } from "react-redux";
-import {
-    getStatus,
-    getUsersProfile,
-    savePhoto,
-    saveProfile,
-    updateStatus,
-} from "../../redux/profile-reducer";
-import { getFriends } from "../../redux/friends-reducer";
-import Profile from "./Profile";
-import { useParams } from "react-router-dom";
-import { compose } from "redux";
-import { AuthRedirectComponent } from "../Hoc/withAuthRedirect";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getUsersProfile, getStatus, updateStatus, savePhoto, saveProfile } from '../../redux/profile-reducer';
+import Profile from './Profile';
+import {AuthRedirectComponent} from "../Hoc/withAuthRedirect";
 
-function withRouter(Component) {
-    return (props) => {
-        const match = { params: useParams() };
-        return <Component {...props} match={match} />;
-    };
-}
+const ProfileContainer = props => {
+    const { userId: paramId } = useParams();
+    const userId = paramId || props.authedUserId;
 
-class ProfileContainer extends React.Component {
-    componentDidMount() {
-        const userId = this.props.match?.params?.userId || 32336;
-        this.props.getUsersProfile(userId);
-        this.props.getStatus(userId);
-        this.props.getFriends();
-    }
+    useEffect(() => {
+        props.getUsersProfile(userId);
+        props.getStatus(userId);
+    }, [paramId]);
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.userId !== prevProps.match.params.userId) {
-            const userId = this.props.match?.params?.userId || 32336;
-            this.props.getUsersProfile(userId);
-            this.props.getStatus(userId);
-            this.props.getFriends();
-        }
-    }
+    return (
+        <Profile
+            {...props}
+            profile={props.profile}
+            status={props.status}
+            updateStatus={props.updateStatus}
+            isOwner={!paramId}
+            savePhoto={props.savePhoto}
+            saveProfile={props.saveProfile}
+        />
+    );
+};
 
-    render() {
-        return (
-            <Profile
-                {...this.props}
-                profile={this.props.profile}
-                status={this.props.status}
-                updateStatus={this.props.updateStatus}
-                isOwner={!this.props.match.params.userId}
-                savePhoto={this.props.savePhoto}
-                saveProfile={this.props.saveProfile}
-                friends={this.props.friends}
-            />
-        );
-    }
-}
-
-const mapStateToProps = (state) => ({
+const mapState = state => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
-    friends: state.friendsPage.friends,
+    authedUserId: state.auth.id
 });
 
-export default compose(
-    connect(mapStateToProps, {
-        getUsersProfile,
-        getStatus,
-        updateStatus,
-        savePhoto,
-        saveProfile,
-        getFriends,
-    }),
-    withRouter,
-    AuthRedirectComponent
-)(ProfileContainer);
+export default connect(mapState, { getUsersProfile, getStatus, updateStatus, savePhoto, saveProfile })(
+    AuthRedirectComponent(ProfileContainer)
+);

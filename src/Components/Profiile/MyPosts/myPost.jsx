@@ -1,44 +1,71 @@
-import React, { useRef } from "react";
-import { Box, Typography, TextField, Button, Stack } from "@mui/material";
+import React, { useRef } from 'react';
+import {
+    Box,
+    TextField,
+    Button,
+    Stack,
+    Dialog,
+    DialogTitle,
+    DialogActions
+} from '@mui/material';
 import Post from "./Post/Post";
 
-const myPost = React.memo((props) => {
-    const postsElement = props.posts.map(p => (
-        <Post key={p.id} message={p.message} likesCount={p.likesCount} />
-    ));
 
-    const newPostElement = useRef(null);
+export default function MyPosts({
+                                    posts,
+                                    newPostText,
+                                    addPost,
+                                    updateNewPostText,
+                                    deletePost,
+                                    toggleLike,
+                                    toggleDislike
+                                }) {
+    const ref = useRef();
+    const [confirmOpen, setConfirmOpen] = React.useState(false);
+    const [toDeleteId, setToDeleteId] = React.useState(null);
 
-    const onAddPost = () => {
-        props.addPost();
+    const handleDeleteClick = id => {
+        setToDeleteId(id);
+        setConfirmOpen(true);
     };
-
-    const onPostChange = () => {
-        const text = newPostElement.current.value;
-        props.updateNewPostText(text);
+    const handleConfirm = () => {
+        deletePost(toDeleteId);
+        setConfirmOpen(false);
     };
+    const handleCancel = () => setConfirmOpen(false);
 
     return (
-        <Box sx={{ padding: 2, backgroundColor: "#bbdefb", borderRadius: 2 }}>
-            <Typography variant="h5" mb={2}>My Posts</Typography>
+        <Box sx={{ p:2, bgcolor:'#bbdefb', borderRadius:2, mb:4 }}>
             <Stack spacing={2}>
                 <TextField
-                    label="What's on your mind?"
                     multiline
                     rows={3}
-                    variant="outlined"
-                    inputRef={newPostElement}
-                    value={props.newPostText}
-                    onChange={onPostChange}
+                    inputRef={ref}
+                    value={newPostText}
+                    onChange={e => updateNewPostText(e.target.value)}
+                    label="What's on your mind?"
                     fullWidth
                 />
-                <Button variant="contained" onClick={onAddPost}>
-                    Add Post
-                </Button>
-                {postsElement}
+                <Button variant="contained" onClick={addPost}>Add Post</Button>
+                {posts.map(p => (
+                    <Post
+                        key={p.id}
+                        {...p}
+                        onLike={() => toggleLike(p.id)}
+                        onDislike={() => toggleDislike(p.id)}
+                        onDelete={() => handleDeleteClick(p.id)}
+                    />
+                ))}
             </Stack>
+
+            {/* Диалог подтверждения */}
+            <Dialog open={confirmOpen} onClose={handleCancel}>
+                <DialogTitle>Удалить этот пост?</DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleCancel}>Отмена</Button>
+                    <Button onClick={handleConfirm} color="error">Удалить</Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
-});
-
-export default myPost;
+}

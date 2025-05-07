@@ -1,0 +1,25 @@
+/* Profile.css */
+
+/* Для больших экранов всё остаётся как есть */
+
+/* Планшет: одна колонка */
+@media (max-width: 768px) {
+    .profile-grid {
+        flex-direction: column !important; /* раскрываем контейнер Grid в колонку */
+    }
+    .my-posts-item,
+    .friends-item {
+        width: 100% !important;           /* каждый item растягиваем */
+    }
+}
+
+/* Телефон: уменьшаем отступы и аватар */
+@media (max-width: 480px) {
+    .profile-info-avatar {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    .MuiGrid-root {
+        padding: 4px !important;
+    }
+}

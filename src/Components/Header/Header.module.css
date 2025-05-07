@@ -1,17 +1,74 @@
-
 .header {
-    grid-area: h;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-md);
     background-color: green;
+    height: 60px;
 }
 
+/* Логотип */
 .header img {
-    width: 20px;
+    width: 40px;
+    height: 40px;
 }
 
+/* Блок логина */
 .loginBlock {
-    float: right;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
 }
 
+/* Кнопка */
+.loginBlock button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Ссылка входа */
 .loginBlock a {
     color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* Скрывать текст логина на маленьких экранах */
+@media (max-width: 480px) {
+    .loginBlock div,         /* при аутентификации: текст и кнопка */
+    .loginBlock a {          /* или ссылка Login */
+        font-size: 0;          /* прячем текст */
+    }
+    .loginBlock button {
+        font-size: 0;          /* прячем текст кнопки «Выйти» */
+    }
+}
+
+/* Показывать только иконки (добавим псевдоэлементы или иконку выхода) */
+@media (max-width: 480px) {
+    .loginBlock button::before {
+        content: '⎋';           /* символ «кнопки выхода» */
+        font-size: 1.2rem;
+        color: white;
+    }
+    .loginBlock a::before {
+        content: '🔒';          /* символ «логина» */
+        font-size: 1.2rem;
+        color: white;
+    }
+}
+
+/* Уменьшаем паддинги и высоту на мобильных */
+@media (max-width: 768px) {
+    .header {
+        padding: 0 var(--spacing-sm);
+        height: 50px;
+    }
+    .header img {
+        width: 32px;
+        height: 32px;
+    }
 }

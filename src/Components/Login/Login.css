@@ -1,6 +1,6 @@
-/* src/components/Login/Login.css */
-
-.login-form, .logout-section {
+/* Общие стили для формы входа и выхода */
+.login-form,
+.logout-section {
     max-width: 400px;
     margin: 40px auto;
     padding: 20px;
@@ -11,10 +11,14 @@
     text-align: center;
 }
 
-.login-form h2 {
+/* Заголовок */
+.login-form h2,
+.logout-section h2 {
     margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
+/* Инпуты */
 .login-form input[type="email"],
 .login-form input[type="password"] {
     width: 100%;
@@ -22,8 +26,17 @@
     margin: 8px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 1rem;
 }
 
+/* Чекбокс */
+.login-form label {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+/* Кнопки */
 .login-form button,
 .logout-section button {
     margin-top: 20px;
@@ -33,9 +46,34 @@
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
 }
-
 .login-form button:hover,
 .logout-section button:hover {
     background-color: #3a7cd8;
+}
+
+/* Мобильная адаптивка */
+@media (max-width: 480px) {
+    .login-form,
+    .logout-section {
+        margin: 20px 8px;
+        padding: 16px;
+    }
+    .login-form h2,
+    .logout-section h2 {
+        font-size: 1.25rem;
+    }
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    .login-form button,
+    .logout-section button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+    }
 }

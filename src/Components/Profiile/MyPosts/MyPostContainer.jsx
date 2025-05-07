@@ -1,38 +1,25 @@
-import React from "react";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
-import myPost from './myPost';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import {connect} from "react-redux";
+import {
+    addPost,
+    updateNewPostText,
+    deletePost,
+    toggleLike,
+    toggleDislike
+} from '../../../redux/profile-reducer';
+import MyPosts from "./myPost";
 
-
-
-
-
-
-// Создание библиотеки connect
-
-const mapStateToProps = (state) => {
-    return {
-        posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateNewPostText: (text) => {
-            let action = updateNewPostTextActionCreator(text);
-            dispatch(action);
-        },
-        addPost: () => {
-            dispatch(addPostActionCreator());
-        }
-    };
+const mapState = state => ({
+    posts: state.profilePage.posts,
+    newPostText: state.profilePage.newPostText
+});
+const mapDispatch = {
+    addPost,
+    updateNewPostText,
+    deletePost,
+    toggleLike,
+    toggleDislike
 };
 
-
-
-const MyPostsContainer = connect (mapStateToProps, mapDispatchToProps) (myPost)
-
-
-export default MyPostsContainer
+export default connect(mapState, mapDispatch)(MyPosts);

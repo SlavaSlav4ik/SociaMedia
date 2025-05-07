@@ -1,102 +1,37 @@
-import axios from "axios";
-import header from "../Header/Header";
+import axios from 'axios';
+
 const instance = axios.create({
     withCredentials: true,
-    baseURL: `https://social-network.samuraijs.com/api/1.0/`,
-    headers: {
-        "API-KEY": "8b85ad00-0f2f-45c0-ace3-1efee3f9809f"
-    },
-})
-
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    headers: { 'API-KEY': '8b85ad00-0f2f-45c0-ace3-1efee3f9809f' }
+});
 
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 10, term = "", friend = null) {
-        return instance
-            .get(`users`, {
-                params: {
-                    page: currentPage,
-                    count: pageSize,
-                    term,
-                    friend
-                }
-            })
-            .then(response => response.data);
-    }
-,
-    follow (usersID) {
-      return   instance.post(`follow/${usersID}`, {}, {
-            withCredentials: true,
-            headers: {
-                "API-KEY": "8b85ad00-0f2f-45c0-ace3-1efee3f9809f"
-            }
-        })
-    },
-    unfollow (usersID) {
-     return    instance.delete(`follow/${usersID}`, {
-            withCredentials: true,
-            headers: {
-                "API-KEY": "8b85ad00-0f2f-45c0-ace3-1efee3f9809f"
-            }
-        })
-    },
-    getProfile (usersID) {
-        console.log ("Obsolete method. Please profileAPI object")
-        return  profileAPI.getProfile(usersID)
-    },
-
-}
+    getUsers: (page = 1, count = 10, term = '', friend = null) =>
+        instance.get('users', { params: { page, count, term, friend } }).then(res => res.data),
+    follow: id => instance.post(`follow/${id}`),
+    unfollow: id => instance.delete(`follow/${id}`)
+};
 
 export const profileAPI = {
-    getProfile(usersID) {
-        return instance.get(`profile/${usersID}`);
+    getProfile: id => instance.get(`profile/${id}`),
+    getStatus: id => instance.get(`profile/status/${id}`),
+    updateStatus: status => instance.put('profile/status', { status }),
+    savePhoto: file => {
+        const form = new FormData(); form.append('image', file);
+        return instance.put('profile/photo', form, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
-    getStatus(usersID) {
-        return instance.get("profile/status/" + usersID);
-    },
-    updateStatus(status) {
-        return instance.put("profile/status/", { status });
-    },
-    savePhoto(photoFile) {
-        const formData = new FormData();
-        formData.append("image", photoFile);
-        return instance.put("profile/photo", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        });
-    },
-    saveProfile(profileData) {
-        return instance.put("profile", {
-            fullName: profileData.fullName,
-            aboutMe: profileData.aboutMe,
-            lookingForAJob: profileData.lookingForAJob,
-            lookingForAJobDescription: profileData.lookingForAJobDescription,
-            contacts: profileData.contacts
-        });
-    }
+    saveProfile: data => instance.put('profile', data)
 };
 
 export const authAPI = {
-    me() {
-        return instance.get(`auth/me`);
-    },
-    login(email, password, rememberMe = false) {
-        return instance.post('auth/login', { email, password, rememberMe });
-    },
-    logout() {
-        return instance.delete('auth/login');
-    }
+    me: () => instance.get('auth/me'),
+    login: (email, password, rememberMe) => instance.post('auth/login', { email, password, rememberMe }),
+    logout: () => instance.delete('auth/login')
 };
 
 export const dialogsAPI = {
-    getDialogs() {
-        return instance.get('dialogs');
-    },
-    getMessages(userId) {
-        return instance.get(`dialogs/${userId}/messages`);
-    },
-    sendMessage(userId, message) {
-        return instance.post(`dialogs/${userId}/messages`, { body: message });
-    }
+    getDialogs: () => instance.get('dialogs'),
+    getMessages: id => instance.get(`dialogs/${id}/messages`),
+    sendMessage: (id, body) => instance.post(`dialogs/${id}/messages`, { body })
 };
-
