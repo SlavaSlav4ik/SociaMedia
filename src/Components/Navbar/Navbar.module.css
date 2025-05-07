@@ -1,14 +1,105 @@
-.nav {
+.navbar {
     grid-area: n;
-    background-color: gold;
-
-
-}
-.item a {
-    color: cornflowerblue;
-    text-decoration: none;
-}
-.item a.active {
+    background-color: #34495e;
     color: white;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 10;
+}
 
+.burger {
+    display: none;
+    width: 30px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    z-index: 15;
+    transition: transform 0.3s ease-in-out;
+}
+
+.burger span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: 0.25s ease-in-out;
+}
+
+.burger span:nth-child(1) {
+    top: 0px;
+}
+
+.burger span:nth-child(2) {
+    top: 11px;
+}
+
+.burger span:nth-child(3) {
+    top: 22px;
+}
+
+.burger.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 11px;
+}
+
+.burger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 11px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.menu a:hover {
+    color: #1abc9c;
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+    }
+    .navbar {
+        grid-area: h;
+    }
+    .menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #2c3e50;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-top: 1px solid #444;
+        transform: translateY(-200%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
 }

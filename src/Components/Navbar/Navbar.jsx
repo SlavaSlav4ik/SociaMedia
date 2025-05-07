@@ -1,26 +1,38 @@
-import React from "react";
-import s from "./Navbar.module.css";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import s from "./Navbar.module.css";
 
-let Navbar = () => {
+const Navbar = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+    // Закрытие при клике вне меню
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     return (
-        <nav className={s.nav}>
-            <div className={s.item}>
-                {/* Переход и остаток цвета на активном*/}
-                <NavLink to="/profile" className={({isActive}) => isActive ? s.active : ""}>Profile</NavLink>
-            </div>
-            <div className={s.item}>
-                <NavLink to="/users" className={({isActive}) => isActive ? s.active : ""}>Friends</NavLink>
-            </div>
-            <div className={s.item}>
-                <NavLink to="/dialogs" className={({isActive}) => isActive ? s.active : ""}>Message</NavLink>
+        <nav className={s.navbar} ref={menuRef}>
+            <div className={`${s.burger} ${menuOpen ? s.open : ""}`} onClick={toggleMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
 
-            <div className={s.item}>
-                <a>Music</a>
-            </div>
-            <div className={s.item}>
-                <a>Settings</a>
+            <div className={`${s.menu} ${menuOpen ? s.open : ""}`}>
+                <NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink>
+                <NavLink to="/dialogs" onClick={() => setMenuOpen(false)}>Dialogs</NavLink>
+                <NavLink to="/users" onClick={() => setMenuOpen(false)}>Users</NavLink>
+                <NavLink to="/login" onClick={() => setMenuOpen(false)}>Login</NavLink>
             </div>
         </nav>
     );
