@@ -1,0 +1,2 @@
+.profile-grid{grid-gap:16px;display:grid;flex-wrap:wrap;gap:16px;grid-template-columns:1fr 3fr 1fr}.my-posts-item{display:grid;grid-template-columns:1fr}@media (max-width:1200px){.profile-grid{display:flex;flex-wrap:wrap}}@media (max-width:768px){.friends-item,.my-posts-item{flex:1 1 100%}}@media (max-width:480px){.profile-info-avatar{height:80px!important;width:80px!important}.MuiGrid-root{display:grid;grid-template-columns:1fr;padding:4px!important}}
+/*# sourceMappingURL=735.5178f1b0.chunk.css.map*/
