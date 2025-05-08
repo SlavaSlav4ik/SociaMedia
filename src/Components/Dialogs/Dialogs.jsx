@@ -11,6 +11,8 @@ import {
     Typography,
 } from "@mui/material";
 import { Navigate } from "react-router-dom";
+import GifSlider from "../../assets/gifs";
+
 
 const Dialogs = (props) => {
     const { dialogsPage, fetchMessages, sendMessageThunk, updateNewMessageBody, isAuth } = props;
@@ -69,6 +71,11 @@ const Dialogs = (props) => {
                 {/* Сообщения */}
                 <Grid item xs={12} md={8}>
                     <Paper elevation={3} sx={{ p: 2, height: "100%" }}>
+
+                        <Box sx={{ mb: 2 }}>
+                            <GifSlider />
+                        </Box>
+
                         <Typography variant="h6" gutterBottom>Сообщения</Typography>
                         <Box
                             sx={{

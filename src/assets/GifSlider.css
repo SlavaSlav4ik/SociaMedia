@@ -1,0 +1,18 @@
+.gif-slider {
+    text-align: center;
+    margin: 20px auto;
+}
+
+.gif-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.slider-text {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}

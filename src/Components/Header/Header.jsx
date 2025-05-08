@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import s from "./Header.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/5590.png_860.png"
 
 const Header = ({ isAuth, login, logout }) => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Header = ({ isAuth, login, logout }) => {
         <header className={s.header}>
             <NavLink to="/" style={{ display: 'flex', alignItems: 'center' }}>
                 <img
-                    src="https://w7.pngwing.com/pngs/787/486/png-transparent-vector-flame-pentecost-fire-logo-thumbnail.png"
+                    src="https://img.lovepik.com/element/45004/5590.png_860.png"
                     alt="logo"
                 />
             </NavLink>

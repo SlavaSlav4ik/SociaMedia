@@ -1,12 +1,11 @@
 import React from "react";
-import "./App.css"; // поправил импорт
-import Header from "./Components/Header/Header";
+import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
-import { HashRouter, Routes, Route } from "react-router-dom"; // HashRouter вместо BrowserRouter
+import { HashRouter, Routes, Route } from "react-router-dom";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import Login from "./Components/Login/Login";
 import { withSuspense } from "./Components/Hoc/withSuspense";
-import DialogWithUser from "./Components/Dialogs/DialogItem/DialogWithUser"; // ✅
+import DialogWithUser from "./Components/Dialogs/DialogItem/DialogWithUser";
 
 const DialogsContainer = React.lazy(() => import("./Components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./Components/Profiile/ProfileContainer"));

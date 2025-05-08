@@ -1,6 +1,7 @@
 .dialogs {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     height: 100%;
     max-width: 900px;
     margin: 20px auto;
@@ -20,35 +21,8 @@
     border-radius: 8px;
 }
 
-.placeholder {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    color: #777;
-}
-
-.dialogItem {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 8px;
-    margin: 5px 0;
-    transition: background-color 0.3s;
-}
-
-.dialogItem:hover {
-    background-color: #f0f0f0;
-}
-
-.dialogItem.active {
-    background-color: #d1f0d1;
-}
-
 .dialogContainer {
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
     max-width: 600px;
     margin-left: 20px;
     padding: 20px;
@@ -86,4 +60,25 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    .dialogs {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .dialogsItems {
+        flex-basis: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .dialogContainer {
+        max-width: 100%;
+        margin-left: 0;
+        padding: 10px;
+    }
 }
