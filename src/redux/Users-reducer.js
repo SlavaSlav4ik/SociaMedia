@@ -12,8 +12,8 @@ const SET_SEARCH_TERM = 'SET_SEARCH_TERM';
 
 let initialState = {
     users: [],
-    pageSize: 5,
-    totalUsersCount: 20,
+    pageSize: 10,
+    totalUsersCount: 10,
     currentPage: 1,
     isFetching: false,
     followingInProgress: [],

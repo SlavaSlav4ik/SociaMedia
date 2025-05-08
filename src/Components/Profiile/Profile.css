@@ -5,7 +5,7 @@
 /* Планшет: одна колонка */
 @media (max-width: 768px) {
     .profile-grid {
-        flex-direction: column !important; /* раскрываем контейнер Grid в колонку */
+
     }
     .my-posts-item,
     .friends-item {
@@ -22,4 +22,11 @@
     .MuiGrid-root {
         padding: 4px !important;
     }
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr;
+    justify-content: stretch;
+
 }

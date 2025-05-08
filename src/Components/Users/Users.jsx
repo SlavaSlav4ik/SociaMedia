@@ -65,45 +65,54 @@ const Users = ({
             <Grid container spacing={2}>
                 {users.map(u => (
                     <Grid key={u.id} item xs={12} sm={6} md={4} lg={3}>
-                        <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <NavLink to={`/profile/${u.id}`}>
-                                        <Avatar
-                                            src={u.photos.small || userPhoto}
-                                            alt="avatar"
-                                            sx={{
-                                                width: { xs: 40, sm: 56 },
-                                                height: { xs: 40, sm: 56 },
-                                                mr: 2
-                                            }}
-                                        />
-                                    </NavLink>
-                                    <Box>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
-                                        >
-                                            {u.name}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, mt: 0.5 }}
-                                        >
-                                            {u.status || "No status"}
-                                        </Typography>
-                                    </Box>
-                                </Box>
+                        <Card variant="outlined" sx={{ display: 'grid', alignItems: 'center',
+                            gridColumn: '1fr 1fr',
+                            minWidth: '300px', minHeight: '250px'}}>
+                            {/* Сетка - Аватар - текставая часть хар-во*/}
+                            <CardContent
+                                sx={{
+                                    display: 'grid',
+                                    alignItems: 'center',
+                                    justifyItems: 'center',
+                                    textAlign: 'center',
+                                    height: '100%',
+                                    gap: 1
+                                }}
+                            >
+                                <NavLink to={`/profile/${u.id}`}>
+                                    <Avatar
+                                        src={u.photos.small || userPhoto}
+                                        alt="avatar"
+                                        sx={{
+                                            width: { xs: 56, sm: 72 },
+                                            height: { xs: 56, sm: 72 }
+                                        }}
+                                    />
+                                </NavLink>
 
+                                <Box>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
+                                    >
+                                        {u.name}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, mt: 0.5 }}
+                                    >
+                                        {u.status || "No status"}
+                                    </Typography>
+                                </Box>
+                                {/* Хар-во подписки */}
                                 <Button
                                     variant={u.followed ? "outlined" : "contained"}
                                     color={u.followed ? "error" : "primary"}
                                     disabled={followingInProgress.includes(u.id)}
                                     onClick={() => u.followed ? unfollow(u.id) : follow(u.id)}
-                                    fullWidth
                                     sx={{
-                                        ml: 2,
+                                        px: 3,
                                         py: { xs: 0.5, sm: 1 },
                                         fontSize: { xs: '0.75rem', sm: '0.875rem' }
                                     }}
@@ -111,6 +120,7 @@ const Users = ({
                                     {u.followed ? "Unfollow" : "Follow"}
                                 </Button>
                             </CardContent>
+
                         </Card>
                     </Grid>
                 ))}

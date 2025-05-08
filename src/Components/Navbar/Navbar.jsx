@@ -29,10 +29,10 @@ const Navbar = () => {
             </div>
 
             <div className={`${s.menu} ${menuOpen ? s.open : ""}`}>
-                <NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink>
-                <NavLink to="/dialogs" onClick={() => setMenuOpen(false)}>Dialogs</NavLink>
-                <NavLink to="/users" onClick={() => setMenuOpen(false)}>Users</NavLink>
-                <NavLink to="/login" onClick={() => setMenuOpen(false)}>Login</NavLink>
+                <NavLink to="/profile" onClick={() => setMenuOpen(false)}>Профиль</NavLink>
+                <NavLink to="/users" onClick={() => setMenuOpen(false)}>Друзья</NavLink>
+                <NavLink to="/dialogs" onClick={() => setMenuOpen(false)}>Сообщения</NavLink>
+
             </div>
         </nav>
     );
