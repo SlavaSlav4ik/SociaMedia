@@ -67,7 +67,7 @@ const Users = ({
                     <Grid key={u.id} item xs={12} sm={6} md={4} lg={3}>
                         <Card variant="outlined" sx={{ display: 'grid', alignItems: 'center',
                             gridColumn: '1fr 1fr',
-                            minWidth: '300px', minHeight: '250px'}}>
+                            minWidth: '250px', minHeight: '150px'}}>
                             {/* Сетка - Аватар - текставая часть хар-во*/}
                             <CardContent
                                 sx={{
@@ -75,7 +75,6 @@ const Users = ({
                                     alignItems: 'center',
                                     justifyItems: 'center',
                                     textAlign: 'center',
-                                    height: '100%',
                                     gap: 1
                                 }}
                             >
