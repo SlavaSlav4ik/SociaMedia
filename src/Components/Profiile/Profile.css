@@ -1,32 +1,42 @@
-/* Profile.css */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    flex-wrap: wrap;
+    gap: 16px;
+}
 
-/* Для больших экранов всё остаётся как есть */
+/* Настройка ширины по умолчанию */
+.my-posts-item {
+    display: grid;
+    grid-template-columns: 1fr;
+}
 
-/* Планшет: одна колонка */
-@media (max-width: 768px) {
+
+@media (max-width: 1200px) {
     .profile-grid {
-
-    }
-    .my-posts-item,
-    .friends-item {
-        width: 100% !important;           /* каждый item растягиваем */
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
-/* Телефон: уменьшаем отступы и аватар */
+/* Планшет и ниже — всё в столбик */
+@media (max-width: 768px) {
+    .my-posts-item,
+    .friends-item {
+        flex: 1 1 100%;
+    }
+}
+
+/* Телефон: уменьшаем аватар и отступы */
 @media (max-width: 480px) {
     .profile-info-avatar {
         width: 80px !important;
         height: 80px !important;
     }
+
     .MuiGrid-root {
         padding: 4px !important;
+        display: grid;
+        grid-template-columns: 1fr;
     }
-}
-
-.profile-grid {
-    display: grid;
-    grid-template-columns: 2fr 3fr 1fr;
-    justify-content: stretch;
-
 }

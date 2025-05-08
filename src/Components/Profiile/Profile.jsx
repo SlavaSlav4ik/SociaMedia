@@ -12,11 +12,7 @@ const Profile = (props) => {
     }
 
     return (
-        <Grid
-            container
-            spacing={2}
-            className="profile-grid"           // <-- добавили класс для контейнера
-        >
+        <Grid container spacing={2} className="profile-grid">
             <Grid item xs={12}>
                 <ProfileInfo
                     profile={props.profile}
@@ -28,22 +24,15 @@ const Profile = (props) => {
                 />
             </Grid>
 
-            <Grid
-                item
-                xs={8}
-                className="my-posts-item"         // <-- для блока постов
-            >
+            <Grid item className="my-posts-item">
                 <MyPostContainer />
             </Grid>
 
-            <Grid
-                item
-                xs={4}
-                className="friends-item"          // <-- для блока друзей
-            >
+            <Grid item className="friends-item">
                 <FriendsList friends={props.friends} />
             </Grid>
         </Grid>
+
     );
 };
 
