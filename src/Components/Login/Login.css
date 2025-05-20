@@ -31,6 +31,7 @@
 
 /* Чекбокс */
 .login-form label {
+    margin: 20px;
     display: inline-flex;
     align-items: center;
     font-size: 0.9rem;
@@ -53,6 +54,27 @@
 .logout-section button:hover {
     background-color: #3a7cd8;
 }
+
+/* Планшеты (от 768px) */
+@media (min-width: 768px) {
+    .login-form {
+        padding: 3rem;
+    }
+    .login-title {
+        font-size: 2rem;
+    }
+}
+
+/* Десктопы (от 1024px) */
+@media (min-width: 1024px) {
+    .login-wrapper {
+        padding: 2rem;
+    }
+    .login-form {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+}
+
 
 /* Мобильная адаптивка */
 @media (max-width: 480px) {
