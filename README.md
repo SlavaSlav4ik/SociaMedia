@@ -46,3 +46,5 @@ jest.config.js — конфигурация для тестирования.
 
 Тестирование — покрытие компонентов и логики тестами для обеспечения надежности.
 
+
+gh-pages: https://slavaslav4ik.github.io/SociaMedia/#/login
